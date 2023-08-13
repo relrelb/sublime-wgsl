@@ -7,6 +7,7 @@ scope: source.wgsl
 contexts:
   main:
     - include: line_comments
+    - include: block_comments
     - include: keywords
     - include: attributes
     - include: functions
@@ -22,6 +23,24 @@ contexts:
       captures:
         1: keyword.operator.attribute.at
         2: entity.name.attribute.wgsl
+  block_comments:
+    # empty block comments
+    - match: /\*\*/
+      scope: comment.block.wgsl
+    # block documentation comments
+    - match: /\*\*
+      push:
+        - meta_scope: comment.block.documentation.wgsl
+        - match: \*/
+          pop: true
+        - include: block_comments
+    # block comments
+    - match: /\*(?!\*)
+      push:
+        - meta_scope: comment.block.wgsl
+        - match: \*/
+          pop: true
+        - include: block_comments
   constants:
     # decimal float literal
     - match: '(-?\b[0-9][0-9]*\.[0-9][0-9]*)([eE][+-]?[0-9]+)?\b'
@@ -48,6 +67,7 @@ contexts:
             0: punctuation.brackets.round.wgsl
           pop: true
         - include: line_comments
+        - include: block_comments
         - include: keywords
         - include: attributes
         - include: function_calls
@@ -69,6 +89,7 @@ contexts:
             0: punctuation.brackets.curly.wgsl
           pop: true
         - include: line_comments
+        - include: block_comments
         - include: keywords
         - include: attributes
         - include: function_calls
@@ -78,10 +99,10 @@ contexts:
         - include: punctuation
   keywords:
     # other keywords
-    - match: \b(bitcast|block|break|case|continue|continuing|default|discard|else|elseif|enable|fallthrough|for|function|if|loop|private|read|read_write|return|storage|switch|uniform|workgroup|write)\b
+    - match: \b(bitcast|block|break|case|continue|continuing|default|discard|else|elseif|enable|fallthrough|for|function|if|loop|private|read|read_write|return|storage|switch|uniform|while|workgroup|write)\b
       scope: keyword.control.wgsl
     # reserved keywords
-    - match: \b(asm|const|do|enum|handle|mat|premerge|regardless|typedef|unless|using|vec|void|while)\b
+    - match: \b(asm|const|do|enum|handle|mat|premerge|regardless|typedef|unless|using|vec|void)\b
       scope: keyword.control.wgsl
     # storage keywords
     - match: \b(let|var)\b
@@ -143,7 +164,7 @@ contexts:
     - match: '[\[\]]'
       scope: punctuation.brackets.square.wgsl
     # angle brackets
-    - match: '(?<!=)[<>]'
+    - match: '(?<![=-])[<>]'
       scope: punctuation.brackets.angle.wgsl
   types:
     # scalar types
@@ -151,6 +172,12 @@ contexts:
       scope: storage.type.wgsl
     # reserved scalar types
     - match: \b(i64|u64|f64)\b
+      scope: storage.type.wgsl
+    # vector type aliasses
+    - match: \b(vec2i|vec3i|vec4i|vec2u|vec3u|vec4u|vec2f|vec3f|vec4f|vec2h|vec3h|vec4h)\b
+      scope: storage.type.wgsl
+    # matrix type aliasses
+    - match: \b(mat2x2f|mat2x3f|mat2x4f|mat3x2f|mat3x3f|mat3x4f|mat4x2f|mat4x3f|mat4x4f|mat2x2h|mat2x3h|mat2x4h|mat3x2h|mat3x3h|mat3x4h|mat4x2h|mat4x3h|mat4x4h)\b
       scope: storage.type.wgsl
     # vector/matrix types
     - match: '\b(vec[2-4]|mat[2-4]x[2-4])\b'
