@@ -99,7 +99,7 @@ contexts:
         - include: punctuation
   keywords:
     # other keywords
-    - match: \b(bitcast|block|break|case|continue|continuing|default|discard|else|elseif|enable|fallthrough|for|function|if|loop|private|read|read_write|return|storage|switch|uniform|while|workgroup|write)\b
+    - match: \b(bitcast|block|break|case|continue|continuing|default|discard|else|elseif|enable|fallthrough|for|function|if|loop|override|private|read|read_write|return|storage|switch|uniform|while|workgroup|write)\b
       scope: keyword.control.wgsl
     # reserved keywords
     - match: \b(asm|const|do|enum|handle|mat|premerge|regardless|typedef|unless|using|vec|void)\b
