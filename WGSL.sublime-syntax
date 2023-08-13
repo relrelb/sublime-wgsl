@@ -168,7 +168,7 @@ contexts:
       scope: punctuation.brackets.angle.wgsl
   types:
     # scalar types
-    - match: \b(bool|i32|u32|f32)\b
+    - match: \b(bool|i32|u32|f16|f32)\b
       scope: storage.type.wgsl
     # reserved scalar types
     - match: \b(i64|u64|f64)\b
@@ -188,7 +188,25 @@ contexts:
     # array types
     - match: \b(array)\b
       scope: storage.type.wgsl
-    # Custom type
+    # sampled texture types
+    - match: \b(texture_1d|texture_2d|texture_2d_array|texture_3d|texture_cube|texture_cube_array)\b
+      scope: storage.type.wgsl
+    # multisampled texture types
+    - match: \b(texture_multisampled_2d|texture_depth_multisampled_2d)\b
+      scope: storage.type.wgsl
+    # external sampled texture types
+    - match: \b(texture_external)\b
+      scope: storage.type.wgsl
+    # storage texture types
+    - match: \b(texture_storage_1d|texture_storage_2d|texture_storage_2d_array|texture_storage_3d)\b
+      scope: storage.type.wgsl
+    # depth texture types
+    - match: \b(texture_depth_2d|texture_depth_2d_array|texture_depth_cube|texture_depth_cube_array)\b
+      scope: storage.type.wgsl
+    # sampler type
+    - match: \b(sampler|sampler_comparison)\b
+      scope: storage.type.wgsl
+    # custom type
     - match: '\b([A-Z][A-Za-z0-9]*)\b'
       scope: entity.name.type.wgsl
   variables:
