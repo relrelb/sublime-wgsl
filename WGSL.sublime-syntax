@@ -8,11 +8,11 @@ contexts:
   main:
     - include: line_comments
     - include: block_comments
+    - include: constants
     - include: keywords
     - include: attributes
     - include: functions
     - include: function_calls
-    - include: constants
     - include: types
     - include: variables
     - include: punctuation
@@ -42,18 +42,18 @@ contexts:
           pop: true
         - include: block_comments
   constants:
-    # decimal float literal
-    - match: '(-?\b[0-9][0-9]*\.[0-9][0-9]*)([eE][+-]?[0-9]+)?\b'
-      scope: constant.numeric.float.wgsl
-    # int literal
-    - match: '-?\b0x[0-9a-fA-F]+\b|\b0\b|-?\b[1-9][0-9]*\b'
-      scope: constant.numeric.decimal.wgsl
-    # uint literal
-    - match: '\b0x[0-9a-fA-F]+u\b|\b0u\b|\b[1-9][0-9]*u\b'
-      scope: constant.numeric.decimal.wgsl
     # boolean constant
     - match: \b(true|false)\b
       scope: constant.language.boolean.wgsl
+    # decimal float literal
+    - match: '(\b(0|[1-9][0-9]*)[fh]\b|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)([eE][+-]?[0-9]+)?[fh]?|[0-9]+[eE][+-]?[0-9]+[fh]?)'
+      scope: constant.numeric.float.wgsl
+    # decimal int literal
+    - match: '\b(0|[1-9][0-9]*)[iu]?\b'
+      scope: constant.numeric.decimal.wgsl
+    # hexadecimal int literal
+    - match: '\b0[xX][0-9a-fA-F]+[iu]?\b'
+      scope: constant.numeric.decimal.wgsl
   function_calls:
     # function/method calls
     - match: '([A-Za-z0-9_]+)(\()'
@@ -68,10 +68,10 @@ contexts:
           pop: true
         - include: line_comments
         - include: block_comments
+        - include: constants
         - include: keywords
         - include: attributes
         - include: function_calls
-        - include: constants
         - include: types
         - include: variables
         - include: punctuation
@@ -90,10 +90,10 @@ contexts:
           pop: true
         - include: line_comments
         - include: block_comments
+        - include: constants
         - include: keywords
         - include: attributes
         - include: function_calls
-        - include: constants
         - include: types
         - include: variables
         - include: punctuation
